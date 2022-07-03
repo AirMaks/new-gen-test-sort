@@ -12,7 +12,7 @@ let courses = [
   { name: "Courses in Kazakhstan", prices: [100, 324] }
 ];
 
-function quickSort(courses, desc = false) {
+function quickSort(courses) {
   if (courses.length <= 1) {
     return courses;
   }
@@ -44,85 +44,60 @@ function quickSort(courses, desc = false) {
         pivotIsNull &&
         !pivot2IsNull &&
         courses[i].prices[0] < pivot2) || // 400 null < null 400
-
       (priceFrom &&
         !pivotIsNull &&
         pivot2IsNull &&
         courses[i].prices[0] < pivot) || // 400 null < 400 null
-
       (priceTo &&
         pivotIsNull &&
         !pivot2IsNull &&
         courses[i].prices[1] < pivot2) || // null 400 < null 400
-
       (priceTo &&
         !pivotIsNull &&
         pivot2IsNull &&
         courses[i].prices[1] < pivot) || // null 400 < 400 null
-
       (priceFrom &&
         !pivotIsNull &&
         !pivot2IsNull &&
         courses[i].prices[0] < pivot) || // 400 null < 20 500
-
       (priceTo &&
         !pivotIsNull &&
         !pivot2IsNull &&
         courses[i].prices[1] < pivot) || // null 400 < 20 500
-
       (!priceFrom &&
         !priceTo &&
         pivotIsNull &&
         !pivot2IsNull &&
         courses[i].prices[0] < pivot2) || // 20 50 < null 500
-
       (!priceFrom &&
         !priceTo &&
         !pivotIsNull &&
         pivot2IsNull &&
         courses[i].prices[0] < pivot) || // 20 50 < 500 null
-
       (!priceTo &&
         !priceFrom &&
         !pivotIsNull &&
         !pivot2IsNull &&
         courses[i].prices[0] <= pivot &&
         courses[i].prices[1] < pivot2) || // 100 1000 < 100 300 if pivot and course "price from" are equal
-      
       (!priceTo &&
         !priceFrom &&
         !pivotIsNull &&
         !pivot2IsNull &&
         courses[i].prices[0] < pivot) // 50 200 < 100 300
     ) {
-      if (desc) {
-        less.unshift(courses[i]);
-      } else {
-        less.push(courses[i]);
-      }
+      less.push(courses[i]);
     } else {
-      if (desc) {
-        greater.unshift(courses[i]);
-      } else {
-        greater.push(courses[i]);
-      }
+      greater.push(courses[i]);
     }
   }
-  if (desc) {
-    return [
-      ...quickSort(greater),
-      courses[pivotIndex],
-      ...quickSort(less),
-      ...nulled
-    ];
-  } else {
-    return [
-      ...quickSort(less),
-      courses[pivotIndex],
-      ...quickSort(greater),
-      ...nulled
-    ];
-  }
+
+  return [
+    ...quickSort(less),
+    courses[pivotIndex],
+    ...quickSort(greater),
+    ...nulled
+  ];
 }
 
-console.log(quickSort(courses, true));
+console.log(quickSort(courses));
